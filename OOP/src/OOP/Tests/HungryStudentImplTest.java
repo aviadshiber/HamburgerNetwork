@@ -103,7 +103,7 @@ public class HungryStudentImplTest {
         //no duplication is allowed
         assertEquals(s1.favorites().size(), 1);
         //validate that r1 was not overridden- if you fail here than you have a problem in favorite method.
-        Restaurant findR1 = s1.favorites().stream().findFirst().get();
+        Restaurant findR1 = s1.favorites().stream().filter(r -> r.equals(r1_mock)).collect(Collectors.toList()).get(0);
         assertEquals(findR1, r1);
         //all other collections should be empty
         assertTrue(s2.favorites().isEmpty());

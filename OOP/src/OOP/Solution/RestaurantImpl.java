@@ -9,26 +9,30 @@ import OOP.Provided.Restaurant;
 public class RestaurantImpl implements Restaurant {
     @Override
     public int distance() {
-        return 0;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Restaurant rate(HungryStudent s, int r) throws RateRangeException {
-        return null;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public int numberOfRates() {
-        return 0;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public double averageRating() {
-        return 0;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public int compareTo(Restaurant o) {
-        return 0;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    }
+
+    boolean wasRatedBy(HungryStudentImpl hungryStudent) {
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 }

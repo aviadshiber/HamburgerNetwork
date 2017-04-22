@@ -13,32 +13,32 @@ import java.util.Set;
 public class HamburgerNetworkImpl implements HamburgerNetwork {
     @Override
     public HungryStudent joinNetwork(int id, String name) throws HungryStudent.StudentAlreadyInSystemException {
-        return null;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Restaurant addRestaurant(int id, String name, int dist, Set<String> menu) throws Restaurant.RestaurantAlreadyInSystemException {
-        return null;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Collection<HungryStudent> registeredStudents() {
-        return null;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Collection<Restaurant> registeredRestaurants() {
-        return null;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public HungryStudent getStudent(int id) throws HungryStudent.StudentNotInSystemException {
-        return null;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Restaurant getRestaurant(int id) throws Restaurant.RestaurantNotInSystemException {
-        return null;
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

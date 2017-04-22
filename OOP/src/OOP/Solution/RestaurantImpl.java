@@ -32,6 +32,11 @@ public class RestaurantImpl implements Restaurant {
         throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * the method checks if the student rated this restaurant
+     * @param student
+     * @return true if it was rated, false otherwise.
+     */
     boolean wasRatedBy(HungryStudent student) {
         throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }

@@ -41,9 +41,8 @@ public class HungryStudentImpl implements HungryStudent {
 
     @Override
     public Collection<Restaurant> favorites() {
-        Collection<Restaurant> copyFav=new PriorityQueue<>();
-        copyFav.addAll(favRests);
-        return copyFav;
+        //returning a copy of faveRest to make the object immutable
+        return new PriorityQueue<>(favRests);
     }
 
     @Override
@@ -61,9 +60,8 @@ public class HungryStudentImpl implements HungryStudent {
 
     @Override
     public Set<HungryStudent> getFriends() {
-        Set<HungryStudent> copyOfFriends=new TreeSet<>();
-        copyOfFriends.addAll(friends);
-        return copyOfFriends;
+        //returning a copy of faveRest to make the object immutable
+        return new TreeSet<>(friends);
     }
 
     @Override

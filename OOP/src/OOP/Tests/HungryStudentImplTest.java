@@ -89,6 +89,8 @@ public class HungryStudentImplTest {
         } catch (RateRangeException | UnratedFavoriteRestaurantException e) {
             fail("Rates are legal and no case of favorite(r) where r is not rated by student, weird....");
         }
+
+
         System.out.println("HungryStudent::favorite TEST SUCCESSFUL :)");
     }
 
@@ -96,7 +98,14 @@ public class HungryStudentImplTest {
     public void favorites() throws Exception {
         r1.rate(s1, 1);
         s1.favorite(r1);
-        assertFalse(s1.favorites().isEmpty());
+        Restaurant r1_mock = new RestaurantImpl(4, "BBB2", 10, menu1);
+        s1.favorite(r1_mock);
+        //no duplication is allowed
+        assertEquals(s1.favorites().size(), 1);
+        //validate that r1 was not overridden- if you fail here than you have a problem in favorite method.
+        Restaurant findR1 = s1.favorites().stream().findFirst().get();
+        assertEquals(findR1, r1);
+        //all other collections should be empty
         assertTrue(s2.favorites().isEmpty());
         assertTrue(s3.favorites().isEmpty());
         assertTrue(s4.favorites().isEmpty());
@@ -142,11 +151,11 @@ public class HungryStudentImplTest {
         s1.addFriend(s2);
         if (s1.addFriend(s3) != s1)
             fail("addFriend should return this!");
-      /* try {
+        try {
             s2.addFriend(s1);
         } catch (ConnectionAlreadyExistsException e) {
-            fail("Friendship in part A is not necessarily mutual");
-        }*/
+            fail("Friendship should not be symmetric here");
+        }
         try {
             s1.addFriend(s2);
             fail("Jack already has that friend!");
@@ -220,7 +229,7 @@ public class HungryStudentImplTest {
             s5.favorite(r1).favorite(r2).favorite(r4).favorite(r5);
 
         } catch (RateRangeException | UnratedFavoriteRestaurantException e) {
-            fail("All cool! weird....");
+            fail("No exception should have been thrown here");
         }
         //  System.out.println(r1.averageRating()+"\n");
         //  System.out.println(r2.averageRating()+"\n");
@@ -655,8 +664,9 @@ public class HungryStudentImplTest {
         assertTrue(s3.compareTo(s3) == 0);
         assertTrue(s4.compareTo(s4) == 0);
         assertTrue(s5.compareTo(s5) == 0);
-        HungryStudent s6 = new HungryStudentImpl(51, "Aviad");
-        assertTrue(s5.compareTo(s6) == 0);
+        HungryStudent s5_mock = new HungryStudentImpl(51, "Aviad");
+        assertTrue(s5.compareTo(s5_mock) == 0);
+        assertTrue(s5_mock.compareTo(s5) == 0);
 
         assertTrue(s1.compareTo(s2) > 0);
         assertTrue(s2.compareTo(s1) < 0);

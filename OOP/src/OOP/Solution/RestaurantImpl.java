@@ -32,7 +32,7 @@ public class RestaurantImpl implements Restaurant {
         throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
-    boolean wasRatedBy(HungryStudentImpl hungryStudent) {
+    boolean wasRatedBy(HungryStudent student) {
         throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 }

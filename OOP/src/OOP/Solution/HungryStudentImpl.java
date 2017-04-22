@@ -65,18 +65,10 @@ public class HungryStudentImpl implements HungryStudent {
         return new TreeSet<>(friends);
     }
 
+
     @Override
     public Collection<Restaurant> favoritesByRating(int rLimit) {
-        Collection<RestaurantImpl> copyFavRest = new ArrayList<>();
-        //copying only the RestaurantImpl instances.
-        favRests.forEach(r -> {
-                    if (r instanceof RestaurantImpl)
-                        copyFavRest.add((RestaurantImpl) r);
-                }
-        );
-        if (copyFavRest.size() != (long) favRests.size())
-            throw new RuntimeException("Not all instances are RestaurantImpl");
-
+        Collection<RestaurantImpl> copyFavRest = makeCopy(favRests);
         //creating sorting criteria
         Comparator<RestaurantImpl> byRating = Comparator.comparingDouble(RestaurantImpl::averageRating).reversed();
         Comparator<RestaurantImpl> byDistance = Comparator.comparingInt(RestaurantImpl::distance);
@@ -88,11 +80,40 @@ public class HungryStudentImpl implements HungryStudent {
                         collect(Collectors.toList());
     }
 
-    @Override
-    public Collection<Restaurant> favoritesByDist(int dLimit) {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    private Collection<RestaurantImpl> makeCopy(Collection<Restaurant> toBeCopied) {
+        Collection<RestaurantImpl> copyFavRest = new ArrayList<>();
+        //copying only the RestaurantImpl instances.
+        toBeCopied.forEach(r -> {
+                    if (r instanceof RestaurantImpl)
+                        copyFavRest.add((RestaurantImpl) r);
+                }
+        );
+        //TODO WHAT SHOULD WE DO HERE INSTEAD?!
+        if (copyFavRest.size() != (long) favRests.size())
+            throw new RuntimeException("Not all instances are RestaurantImpl");
+
+        return copyFavRest;
     }
 
+    @Override
+    public Collection<Restaurant> favoritesByDist(int dLimit) {
+        Collection<RestaurantImpl> copyFavRest = makeCopy(favRests);
+        //sorting by 3 criteria:
+        Comparator<RestaurantImpl> byDistance = Comparator.comparingInt(RestaurantImpl::getDistance);
+        Comparator<RestaurantImpl> byRating = Comparator.comparingInt(RestaurantImpl::distance);
+        Comparator<RestaurantImpl> byID = Comparator.comparingInt(RestaurantImpl::getId);
+        //returning all restaurants which have no more than dLimit distance and sorting them by the 3 criteria
+        return copyFavRest.stream().filter(r -> r.distance() <= dLimit).sorted(byDistance.thenComparing(byRating).thenComparing(byID)).collect(Collectors.toList());
+
+    }
+
+    /**
+     * this method check equality of the object.
+     * this method should be override in subclasses
+     *
+     * @param o the other HungryStudentImpl instance.
+     * @return true if they are equal, false otherwise. @see https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html#equals(java.lang.Object)
+     */
     protected boolean eq(Object o) {
         if (o == null) return false;
         if (this == o) return true;
@@ -101,20 +122,38 @@ public class HungryStudentImpl implements HungryStudent {
         return id == other.id;
     }
 
+    /**
+     * the method check if two HungryStudents are equal by comparing their id.
+     * the equals method bound to the contract in java.
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         return this.eq(o) && ((HungryStudentImpl) o).eq(this);
     }
 
+    /**
+     * the id of the student.
+     * @return the hash code of a student
+     */
     @Override
     public int hashCode() {
         return id;
     }
 
+    /**
+     * Id getter
+     * @return the id of the student
+     */
     int getId() {
         return id;
     }
 
+    /**
+     *  Name getter
+     * @return the name of the student
+     */
     public String getName() {
         return name;
     }

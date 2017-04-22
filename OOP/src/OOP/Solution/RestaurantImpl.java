@@ -62,28 +62,28 @@ public class RestaurantImpl implements Restaurant {
     /**
      * @return the id.
      */
-    public int getId() {
+    int getId() {
         return id;
     }
 
     /**
      * @return the name
      */
-    String getName() {
+    public String getName() {
         return name;
     }
 
     /**
      * @return the distance
      */
-    int getDistance() {
+    public int getDistance() {
         return distance;
     }
 
     /**
      * @return the menu
      */
-    Set<String> getMenu() {
+    public Set<String> getMenu() {
         return menu;
     }
 }

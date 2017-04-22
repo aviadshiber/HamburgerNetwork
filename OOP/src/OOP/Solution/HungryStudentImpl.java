@@ -30,6 +30,8 @@ public class HungryStudentImpl implements HungryStudent {
 
     @Override
     public HungryStudent favorite(Restaurant r) throws UnratedFavoriteRestaurantException {
+        if (favRests.contains(r))
+            return this;
         favRests.add(r);
         if (r instanceof RestaurantImpl) {
             RestaurantImpl rest = (RestaurantImpl) r;
@@ -125,6 +127,7 @@ public class HungryStudentImpl implements HungryStudent {
     /**
      * the method check if two HungryStudents are equal by comparing their id.
      * the equals method bound to the contract in java.
+     *
      * @param o
      * @return
      */
@@ -135,6 +138,7 @@ public class HungryStudentImpl implements HungryStudent {
 
     /**
      * the id of the student.
+     *
      * @return the hash code of a student
      */
     @Override
@@ -144,6 +148,7 @@ public class HungryStudentImpl implements HungryStudent {
 
     /**
      * Id getter
+     *
      * @return the id of the student
      */
     int getId() {
@@ -151,11 +156,23 @@ public class HungryStudentImpl implements HungryStudent {
     }
 
     /**
-     *  Name getter
+     * Name getter
+     *
      * @return the name of the student
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        String favFormat = favRests.toString();
+        favFormat = favFormat.substring(1, favFormat.length() - 1);
+        return String.format("Hungry student: %s./nId: %d./nFavorites: %s.",
+                getName(),
+                getId(),
+                favFormat
+        );
     }
 
     @Override

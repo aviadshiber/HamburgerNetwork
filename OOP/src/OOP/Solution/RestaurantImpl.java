@@ -33,7 +33,6 @@ public class RestaurantImpl implements Restaurant {
 
     @Override
     public Restaurant rate(HungryStudent s, int r) throws RateRangeException {
-        HungryStudent temp;
         if(r < 0 || r > 5) throw new RateRangeException();
         this.students.put(s,r);
         return this;
@@ -46,13 +45,14 @@ public class RestaurantImpl implements Restaurant {
 
     @Override
     public double averageRating(){
-        double ret=0;
         if(this.students.size() != 0) {
-            for(Integer value : this.students.values()) {
+            double ret = this.students.values().stream().reduce(0, (a, b) -> a + b);
+           /* for(Integer value : this.students.values()) {
                 ret += value;
-            }
+            }*/
+            return ret / ((double) this.students.size());
         }
-        return ret/((double)this.students.size());
+        return 0;
     }
 
     @Override
@@ -102,12 +102,6 @@ public class RestaurantImpl implements Restaurant {
         return name;
     }
 
-    /**
-     * @return the distance
-     */
-    public int getDistance() {
-        return distance;
-    }
 
     /**
      * @return the menu

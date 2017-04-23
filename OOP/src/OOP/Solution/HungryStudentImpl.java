@@ -32,13 +32,13 @@ public class HungryStudentImpl implements HungryStudent {
     public HungryStudent favorite(Restaurant r) throws UnratedFavoriteRestaurantException {
         if (favRests.contains(r))
             return this;
-        favRests.add(r);
         if (r instanceof RestaurantImpl) {
             RestaurantImpl rest = (RestaurantImpl) r;
             if (!rest.wasRatedBy(this)) {
                 throw new UnratedFavoriteRestaurantException();
             }
         }
+        favRests.add(r);
         return this;
     }
 
@@ -74,11 +74,11 @@ public class HungryStudentImpl implements HungryStudent {
         //creating sorting criteria
         Comparator<RestaurantImpl> byRating = Comparator.comparingDouble(RestaurantImpl::averageRating).reversed();
         Comparator<RestaurantImpl> byDistance = Comparator.comparingInt(RestaurantImpl::distance);
-        Comparator<RestaurantImpl> byName = Comparator.comparing(RestaurantImpl::getName);
+        Comparator<RestaurantImpl> byID = Comparator.comparing(RestaurantImpl::getId);
         //returning all restaurants which have at least rLimit rank and sorting them by the 3 criteria
         return copyFavRest.stream()
                 .filter((r) -> r.averageRating() >= rLimit).
-                        sorted(byRating.thenComparing(byDistance).thenComparing(byName)).
+                        sorted(byRating.thenComparing(byDistance).thenComparing(byID)).
                         collect(Collectors.toList());
     }
 
@@ -101,8 +101,8 @@ public class HungryStudentImpl implements HungryStudent {
     public Collection<Restaurant> favoritesByDist(int dLimit) {
         Collection<RestaurantImpl> copyFavRest = makeCopy(favRests);
         //sorting by 3 criteria:
-        Comparator<RestaurantImpl> byDistance = Comparator.comparingInt(RestaurantImpl::getDistance);
-        Comparator<RestaurantImpl> byRating = Comparator.comparingInt(RestaurantImpl::distance);
+        Comparator<RestaurantImpl> byDistance = Comparator.comparingInt(RestaurantImpl::distance);
+        Comparator<RestaurantImpl> byRating = Comparator.comparingDouble(RestaurantImpl::averageRating).reversed();
         Comparator<RestaurantImpl> byID = Comparator.comparingInt(RestaurantImpl::getId);
         //returning all restaurants which have no more than dLimit distance and sorting them by the 3 criteria
         return copyFavRest.stream().filter(r -> r.distance() <= dLimit).sorted(byDistance.thenComparing(byRating).thenComparing(byID)).collect(Collectors.toList());

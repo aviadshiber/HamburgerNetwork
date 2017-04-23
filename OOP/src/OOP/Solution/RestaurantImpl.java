@@ -3,6 +3,8 @@ package OOP.Solution;
 import OOP.Provided.HungryStudent;
 import OOP.Provided.Restaurant;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -142,4 +144,25 @@ public class RestaurantImpl implements Restaurant {
     }
 
 
+    /**
+     * Helper method to make a copy of all the instances of RestaurantImpl in toBeCopied collection.
+     *
+     * @param toBeCopied
+     * @return
+     */
+    static Collection<RestaurantImpl> makeCopy(Collection<Restaurant> toBeCopied) {
+        Collection<RestaurantImpl> copyFavRest = new ArrayList<>();
+        //copying only the RestaurantImpl instances.
+        toBeCopied.forEach(r -> {
+                    if (r instanceof RestaurantImpl)
+                        copyFavRest.add((RestaurantImpl) r);
+                }
+        );
+        return copyFavRest;
+    }
+
+    @Override
+    public String toString() {
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    }
 }

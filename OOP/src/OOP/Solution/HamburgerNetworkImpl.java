@@ -2,13 +2,15 @@ package OOP.Solution;
 
 import OOP.Provided.HamburgerNetwork;
 import OOP.Provided.HungryStudent;
+import OOP.Provided.HungryStudent.ConnectionAlreadyExistsException;
+import OOP.Provided.HungryStudent.SameStudentException;
 import OOP.Provided.HungryStudent.StudentAlreadyInSystemException;
+import OOP.Provided.HungryStudent.StudentNotInSystemException;
 import OOP.Provided.Restaurant;
 import OOP.Provided.Restaurant.RestaurantAlreadyInSystemException;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by ashiber on 21-Apr-17.
@@ -44,17 +46,24 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
 
     @Override
     public Collection<HungryStudent> registeredStudents() {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+        return new ArrayList<>(students.values());
     }
 
     @Override
     public Collection<Restaurant> registeredRestaurants() {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+        return new ArrayList<>(restaurants.values());
     }
 
     @Override
-    public HungryStudent getStudent(int id) throws HungryStudent.StudentNotInSystemException {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    public HungryStudent getStudent(int id) throws StudentNotInSystemException {
+        validateStudentPresence(id);
+
+        return students.get(id);
+    }
+
+    private void validateStudentPresence(int id) throws StudentNotInSystemException {
+        if (!students.containsKey(id))
+            throw new StudentNotInSystemException();
     }
 
     @Override
@@ -63,22 +72,33 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
     }
 
     @Override
-    public HamburgerNetwork addConnection(HungryStudent s1, HungryStudent s2) throws HungryStudent.StudentNotInSystemException, HungryStudent.ConnectionAlreadyExistsException, HungryStudent.SameStudentException {
-        return null;
+    public HamburgerNetwork addConnection(HungryStudent s1, HungryStudent s2) throws StudentNotInSystemException, ConnectionAlreadyExistsException, SameStudentException {
+        if (s1 == null || s2 == null || !students.containsKey(s1) || !students.containsKey(s2))
+            throw new StudentNotInSystemException();
+        s1.addFriend(s2);
+        s2.addFriend(s1);
+        return this;
     }
 
     @Override
-    public Collection<Restaurant> favoritesByRating(HungryStudent s) throws HungryStudent.StudentNotInSystemException {
-        return null;
+    public Collection<Restaurant> favoritesByRating(HungryStudent s) throws StudentNotInSystemException {
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Collection<Restaurant> favoritesByDist(HungryStudent s) throws HungryStudent.StudentNotInSystemException {
-        return null;
+    public Collection<Restaurant> favoritesByDist(HungryStudent s) throws StudentNotInSystemException {
+        if (s == null)
+            throw new StudentNotInSystemException();
+        int studentID = s.hashCode();
+        validateStudentPresence(studentID);
+        HashSet<Restaurant> result = new HashSet<>();
+        //TODO : FIX 'Warning:(95, 119) Result of 'Stream.collect()' is ignored'
+        s.getFriends().stream().sorted(Comparable::compareTo).map(friend -> result.addAll(friend.favoritesByDist(0))).collect(Collectors.toList());
+        return result;
     }
 
     @Override
-    public boolean getRecommendation(HungryStudent s, Restaurant r, int t) throws HungryStudent.StudentNotInSystemException, Restaurant.RestaurantNotInSystemException, ImpossibleConnectionException {
-        return false;
+    public boolean getRecommendation(HungryStudent s, Restaurant r, int t) throws StudentNotInSystemException, Restaurant.RestaurantNotInSystemException, ImpossibleConnectionException {
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
 }

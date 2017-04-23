@@ -70,7 +70,7 @@ public class HungryStudentImpl implements HungryStudent {
 
     @Override
     public Collection<Restaurant> favoritesByRating(int rLimit) {
-        Collection<RestaurantImpl> copyFavRest = makeCopy(favRests);
+        Collection<RestaurantImpl> copyFavRest = RestaurantImpl.makeCopy(favRests);
         //creating sorting criteria
         Comparator<RestaurantImpl> byRating = Comparator.comparingDouble(RestaurantImpl::averageRating).reversed();
         Comparator<RestaurantImpl> byDistance = Comparator.comparingInt(RestaurantImpl::distance);
@@ -82,24 +82,11 @@ public class HungryStudentImpl implements HungryStudent {
                         collect(Collectors.toList());
     }
 
-    private Collection<RestaurantImpl> makeCopy(Collection<Restaurant> toBeCopied) {
-        Collection<RestaurantImpl> copyFavRest = new ArrayList<>();
-        //copying only the RestaurantImpl instances.
-        toBeCopied.forEach(r -> {
-                    if (r instanceof RestaurantImpl)
-                        copyFavRest.add((RestaurantImpl) r);
-                }
-        );
-        //TODO WHAT SHOULD WE DO HERE INSTEAD?!
-        if (copyFavRest.size() != (long) favRests.size())
-            throw new RuntimeException("Not all instances are RestaurantImpl");
 
-        return copyFavRest;
-    }
 
     @Override
     public Collection<Restaurant> favoritesByDist(int dLimit) {
-        Collection<RestaurantImpl> copyFavRest = makeCopy(favRests);
+        Collection<RestaurantImpl> copyFavRest = RestaurantImpl.makeCopy(favRests);
         //sorting by 3 criteria:
         Comparator<RestaurantImpl> byDistance = Comparator.comparingInt(RestaurantImpl::distance);
         Comparator<RestaurantImpl> byRating = Comparator.comparingDouble(RestaurantImpl::averageRating).reversed();
@@ -128,8 +115,8 @@ public class HungryStudentImpl implements HungryStudent {
      * the method check if two HungryStudents are equal by comparing their id.
      * the equals method bound to the contract in java.
      *
-     * @param o
-     * @return
+     * @param o other student
+     * @return true if they are equal by id.
      */
     @Override
     public boolean equals(Object o) {
@@ -160,7 +147,7 @@ public class HungryStudentImpl implements HungryStudent {
      *
      * @return the name of the student
      */
-    public String getName() {
+    private String getName() {
         return name;
     }
 
@@ -185,7 +172,7 @@ public class HungryStudentImpl implements HungryStudent {
                 return -1;
             return 1;
         }
-        //TODO: what should be returned here?
+        //Ophir said that it never gets here...
         throw new RuntimeException("o is not HungryStudentImpl instance");
     }
 

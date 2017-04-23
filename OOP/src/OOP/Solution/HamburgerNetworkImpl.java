@@ -9,8 +9,10 @@ import OOP.Provided.HungryStudent.StudentNotInSystemException;
 import OOP.Provided.Restaurant;
 import OOP.Provided.Restaurant.RestaurantAlreadyInSystemException;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by ashiber on 21-Apr-17.
@@ -91,9 +93,9 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
             throw new StudentNotInSystemException();
         int studentID = s.hashCode();
         validateStudentPresence(studentID);
-        HashSet<Restaurant> result = new HashSet<>();
-        //TODO : FIX 'Warning:(95, 119) Result of 'Stream.collect()' is ignored'
-        s.getFriends().stream().sorted(Comparable::compareTo).map(friend -> result.addAll(friend.favoritesByDist(0))).collect(Collectors.toList());
+        ArrayList<Restaurant> result = new ArrayList<>();
+        //TODO : is it okay to assume 0 is the minimum?
+        s.getFriends().stream().sorted(Comparable::compareTo).forEachOrdered(friend -> result.addAll(friend.favoritesByDist(0)));
         return result;
     }
 

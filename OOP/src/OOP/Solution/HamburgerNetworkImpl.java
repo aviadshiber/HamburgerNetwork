@@ -2,23 +2,44 @@ package OOP.Solution;
 
 import OOP.Provided.HamburgerNetwork;
 import OOP.Provided.HungryStudent;
+import OOP.Provided.HungryStudent.StudentAlreadyInSystemException;
 import OOP.Provided.Restaurant;
+import OOP.Provided.Restaurant.RestaurantAlreadyInSystemException;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Set;
 
 /**
  * Created by ashiber on 21-Apr-17.
  */
 public class HamburgerNetworkImpl implements HamburgerNetwork {
-    @Override
-    public HungryStudent joinNetwork(int id, String name) throws HungryStudent.StudentAlreadyInSystemException {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+
+    private HashMap<Integer, HungryStudent> students;
+    private HashMap<Integer, Restaurant> restaurants;
+
+    public HamburgerNetworkImpl() {
+
+        students = new HashMap<>();
+        restaurants = new HashMap<>();
     }
 
     @Override
-    public Restaurant addRestaurant(int id, String name, int dist, Set<String> menu) throws Restaurant.RestaurantAlreadyInSystemException {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    public HungryStudent joinNetwork(int id, String name) throws StudentAlreadyInSystemException {
+        HungryStudentImpl newStudent;
+        if (students.containsKey(id)) throw new StudentAlreadyInSystemException();
+        newStudent = new HungryStudentImpl(id, name);
+        students.put(id, newStudent);
+        return newStudent;
+    }
+
+    @Override
+    public Restaurant addRestaurant(int id, String name, int dist, Set<String> menu) throws RestaurantAlreadyInSystemException {
+        RestaurantImpl newRestaurant;
+        if (restaurants.containsKey(id)) throw new RestaurantAlreadyInSystemException();
+        newRestaurant = new RestaurantImpl(id, name, dist, menu);
+        restaurants.put(id, newRestaurant);
+        return newRestaurant;
     }
 
     @Override

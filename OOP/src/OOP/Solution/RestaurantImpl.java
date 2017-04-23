@@ -3,7 +3,8 @@ package OOP.Solution;
 import OOP.Provided.HungryStudent;
 import OOP.Provided.Restaurant;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Set;
 
 
 public class RestaurantImpl implements Restaurant {
@@ -15,14 +16,14 @@ public class RestaurantImpl implements Restaurant {
     /**
      * a list of all the students that rates the restaurant
      */
-    HashMap<HungryStudent, Integer> students ;
+    private HashMap<HungryStudent, Integer> students;
 
     public RestaurantImpl(int id, String name, int distance, Set<String> menu) {
         this.id = id;
         this.name = name;
         this.distance = distance;
         this.menu = menu;
-        this.students = new HashMap<HungryStudent, Integer>();
+        this.students = new HashMap<>();
     }
 
 
@@ -33,6 +34,8 @@ public class RestaurantImpl implements Restaurant {
 
     @Override
     public Restaurant rate(HungryStudent s, int r) throws RateRangeException {
+        if (s == null)
+            return this;
         if(r < 0 || r > 5) throw new RateRangeException();
         this.students.put(s,r);
         return this;
@@ -137,5 +140,6 @@ public class RestaurantImpl implements Restaurant {
     public boolean equals(Object o) {
         return this.eq(o) && ((RestaurantImpl) o).eq(this);
     }
+
 
 }

@@ -70,7 +70,7 @@ public class RestaurantImpl implements Restaurant {
                 return -1;
             return 1;
         }
-        //TODO: what should be returned here?
+        //TODO: Ophir said it will not get here
         throw new RuntimeException("o is not RestaurantImpl instance");
     }
 

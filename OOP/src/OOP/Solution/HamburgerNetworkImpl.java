@@ -9,10 +9,7 @@ import OOP.Provided.HungryStudent.StudentNotInSystemException;
 import OOP.Provided.Restaurant;
 import OOP.Provided.Restaurant.RestaurantAlreadyInSystemException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by ashiber on 21-Apr-17.
@@ -93,9 +90,8 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
             throw new StudentNotInSystemException();
         int studentID = s.hashCode();
         validateStudentPresence(studentID);
-        ArrayList<Restaurant> result = new ArrayList<>();
-        //TODO : is it okay to assume 0 is the minimum?
-        s.getFriends().stream().sorted(Comparable::compareTo).forEachOrdered(friend -> result.addAll(friend.favoritesByDist(0)));
+        Set<Restaurant> result = new TreeSet<>();
+        s.getFriends().stream().sorted(Comparable::compareTo).forEachOrdered(friend -> result.addAll(friend.favoritesByDist(Integer.MAX_VALUE)));
         return result;
     }
 

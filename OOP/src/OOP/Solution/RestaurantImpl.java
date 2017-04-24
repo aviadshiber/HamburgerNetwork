@@ -162,7 +162,11 @@ public class RestaurantImpl implements Restaurant {
     }
 
     @Override
-    public String toString() {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    public String toString(){
+        String s = "Restaurant: "+ getName() +
+                   ".\nId: " + getId()+
+                    ".\nDistance: "+ distance()+
+                    ".\nMenu: " + this.getMenu().stream().sorted().reduce("",(f,n)-> f.equals("")?n:f+", "+n) +".";
+        return s;
     }
 }

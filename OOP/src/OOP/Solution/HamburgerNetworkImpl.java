@@ -72,7 +72,7 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
 
     @Override
     public HamburgerNetwork addConnection(HungryStudent s1, HungryStudent s2) throws StudentNotInSystemException, ConnectionAlreadyExistsException, SameStudentException {
-        if (s1 == null || s2 == null || !students.containsKey(s1) || !students.containsKey(s2))
+        if (s1 == null || s2 == null || !students.containsKey(s1.hashCode()) || !students.containsKey(s2.hashCode()))
             throw new StudentNotInSystemException();
         s1.addFriend(s2);
         s2.addFriend(s1);

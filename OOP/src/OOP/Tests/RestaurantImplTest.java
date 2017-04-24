@@ -5,8 +5,9 @@ import OOP.Provided.Restaurant;
 import OOP.Provided.Restaurant.RateRangeException;
 import OOP.Solution.HungryStudentImpl;
 import OOP.Solution.RestaurantImpl;
-
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.util.HashSet;

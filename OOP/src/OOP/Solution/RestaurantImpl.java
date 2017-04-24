@@ -14,7 +14,7 @@ public class RestaurantImpl implements Restaurant {
     private int id;
     private String name;
     private int distance;
-    private Set<String> menu;
+    private Set<String> menu; 
     /**
      * a list of all the students that rates the restaurant
      */

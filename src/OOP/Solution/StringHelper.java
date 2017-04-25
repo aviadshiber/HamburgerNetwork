@@ -10,8 +10,8 @@ import java.util.function.Function;
 public class StringHelper {
 
 
-    public static <T> String delimitCollection(Collection<T> collection, Function<? super T, String> toStringResult, String delimiter) {
-        Comparator<T> comparator = Comparator.comparing(toStringResult);
-        return collection.stream().sorted(comparator).map(toStringResult).reduce("", (first, next) -> first.equals("") ? first + next : first + ", " + next);
+    public static <T> String delimitCollection(Collection<T> collection,Comparator<T> comparator, Function<? super T, String> toStringResult, String delimiter) {
+
+        return collection.stream().sorted(comparator).map(toStringResult).reduce("", (first, next) -> first.equals("") ? first + next : first + delimiter + next);
     }
 }

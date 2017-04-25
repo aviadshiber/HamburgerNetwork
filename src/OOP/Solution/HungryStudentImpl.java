@@ -155,7 +155,7 @@ public class HungryStudentImpl implements HungryStudent {
     @Override
     public String toString() {
         Collection<RestaurantImpl> restaurantCollection = RestaurantImpl.makeCopy(favRests);
-        String favFormat = StringHelper.delimitCollection(restaurantCollection, r -> r.getName(), ",");
+        String favFormat = StringHelper.delimitCollection(restaurantCollection,Comparator.comparing(RestaurantImpl::getName), r -> r.getName(), ", ");
         return String.format("Hungry student: %s.\nId: %d.\nFavorites: %s.",
                 getName(),
                 getId(),

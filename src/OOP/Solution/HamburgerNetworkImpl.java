@@ -10,6 +10,7 @@ import OOP.Provided.Restaurant;
 import OOP.Provided.Restaurant.RestaurantAlreadyInSystemException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by ashiber on 21-Apr-17.
@@ -89,8 +90,14 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
             throw new StudentNotInSystemException();
         int studentID = s.hashCode();
         validateStudentPresence(studentID);
-        Set<Restaurant> result = new TreeSet<>();
-        s.getFriends().stream().sorted(Comparable::compareTo).forEachOrdered(friend -> result.addAll(friend.favoritesByDist(Integer.MAX_VALUE)));
+        List<Restaurant> result = new ArrayList<>();
+        s.getFriends().stream().sorted(Comparable::compareTo)
+                .forEachOrdered(friend ->
+                        result.addAll(friend.favoritesByDist(Integer.MAX_VALUE).stream()
+                                       .filter( r-> !result.contains(r))
+                                       .collect(Collectors.toList())
+                                    ) //end of addAll method
+                );
         return result;
     }
 
@@ -98,4 +105,5 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
     public boolean getRecommendation(HungryStudent s, Restaurant r, int t) throws StudentNotInSystemException, Restaurant.RestaurantNotInSystemException, ImpossibleConnectionException {
         throw new java.lang.UnsupportedOperationException("Not supported yet.");
     }
+
 }

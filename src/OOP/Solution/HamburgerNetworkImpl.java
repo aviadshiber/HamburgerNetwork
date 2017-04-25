@@ -10,6 +10,7 @@ import OOP.Provided.Restaurant;
 import OOP.Provided.Restaurant.RestaurantAlreadyInSystemException;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +44,7 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
         restaurants.put(id, newRestaurant);
         return newRestaurant;
     }
+
 
     @Override
     public Collection<HungryStudent> registeredStudents() {
@@ -81,22 +83,27 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
 
     @Override
     public Collection<Restaurant> favoritesByRating(HungryStudent s) throws StudentNotInSystemException {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+        return sortByIDAndRunOnFriends(s,friend->friend.favoritesByRating(0));
     }
 
     @Override
     public Collection<Restaurant> favoritesByDist(HungryStudent s) throws StudentNotInSystemException {
+       return sortByIDAndRunOnFriends(s,friend-> friend.favoritesByDist(Integer.MAX_VALUE));
+    }
+
+    private Collection<Restaurant> sortByIDAndRunOnFriends(HungryStudent s, Function<HungryStudent,Collection<Restaurant>> friendCollection) throws StudentNotInSystemException {
         if (s == null)
             throw new StudentNotInSystemException();
         int studentID = s.hashCode();
         validateStudentPresence(studentID);
         List<Restaurant> result = new ArrayList<>();
+
         s.getFriends().stream().sorted(Comparable::compareTo)
                 .forEachOrdered(friend ->
-                        result.addAll(friend.favoritesByDist(Integer.MAX_VALUE).stream()
-                                       .filter( r-> !result.contains(r))
-                                       .collect(Collectors.toList())
-                                    ) //end of addAll method
+                        result.addAll(friendCollection.apply(friend).stream()
+                                .filter( r-> !result.contains(r))
+                                .collect(Collectors.toList())
+                        ) //end of addAll method
                 );
         return result;
     }

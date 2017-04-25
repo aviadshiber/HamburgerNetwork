@@ -17,6 +17,9 @@ import java.util.function.Predicate;
 import static org.junit.Assert.*;
 
 
+/*
+* Hi */
+
 public class Example {
     @Test
     public void ExampleTest() {

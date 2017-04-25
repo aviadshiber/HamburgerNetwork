@@ -56,7 +56,6 @@ public class HamburgerNetworkImpl implements HamburgerNetwork {
     @Override
     public HungryStudent getStudent(int id) throws StudentNotInSystemException {
         validateStudentPresence(id);
-
         return students.get(id);
     }
 

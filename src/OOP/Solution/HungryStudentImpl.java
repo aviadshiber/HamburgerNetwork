@@ -30,14 +30,14 @@ public class HungryStudentImpl implements HungryStudent {
 
     @Override
     public HungryStudent favorite(Restaurant r) throws UnratedFavoriteRestaurantException {
-        if (favRests.contains(r))
-            return this;
         if (r instanceof RestaurantImpl) {
             RestaurantImpl rest = (RestaurantImpl) r;
             if (!rest.wasRatedBy(this)) {
                 throw new UnratedFavoriteRestaurantException();
             }
         }
+        if (favRests.contains(r))
+            return this;
         favRests.add(r);
         return this;
     }
@@ -142,6 +142,7 @@ public class HungryStudentImpl implements HungryStudent {
         return id;
     }
 
+
     /**
      * Name getter
      *
@@ -153,9 +154,9 @@ public class HungryStudentImpl implements HungryStudent {
 
     @Override
     public String toString() {
-        String favFormat = favRests.toString();
-        favFormat = favFormat.substring(1, favFormat.length() - 1);
-        return String.format("Hungry student: %s./nId: %d./nFavorites: %s.",
+        Collection<RestaurantImpl> restaurantCollection = RestaurantImpl.makeCopy(favRests);
+        String favFormat = StringHelper.delimitCollection(restaurantCollection, r -> r.getName(), ",");
+        return String.format("Hungry student: %s.\nId: %d.\nFavorites: %s.",
                 getName(),
                 getId(),
                 favFormat

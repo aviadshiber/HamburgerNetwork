@@ -2,6 +2,7 @@ package OOP.Solution;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -14,4 +15,6 @@ public class StringHelper {
 
         return collection.stream().sorted(comparator).map(toStringResult).reduce("", (first, next) -> first.equals("") ? first + next : first + delimiter + next);
     }
+
+
 }
